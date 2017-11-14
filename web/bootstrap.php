@@ -5,9 +5,22 @@ ini_set('display_errors', E_ALL);
 echo getenv('DATABASE_URL');
 
 try {
-    $conn = new Connection("db", "app", "user", "p@ssword");
+
+    include __DIR__ . '/../vendor/autoload.php';
+
+    $config = new \Doctrine\DBAL\Configuration();
+
+    $connectionParams = array(
+        'dbname' => 'app',
+        'user' => 'user',
+        'password' => 'p@ssword',
+        'host' => 'db',
+        'driver' => 'pdo_pgsql',
+    );
+    $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
+
  } catch (PDOException  $e) {
-    print $e->getMessage() . $e->getTraceAsString();
+    print $e->getMessage();
  }
 
 $query = "CREATE TABLE if NOT EXISTS usuarios (
