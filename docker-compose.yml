@@ -1,0 +1,39 @@
+version: '2'
+
+services:
+    app-desafio:
+        build:
+            dockerfile: ./docker/app.dockerfile
+            context: .
+        image: andreisusanu/nginx-php5.6
+        container_name: app-desafio
+        ports: 
+          - "8000:80"
+        volumes: 
+          - ./:/var/www/html
+        networks: 
+          - production-network
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_DB: app
+            POSTGRES_PASSWORD: p@ssword
+            DATABASE_URL: db://user@postgres/app
+
+    db:
+        image: postgres
+        restart: always
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_DB: app
+            POSTGRES_PASSWORD: p@ssword
+        container_name: db
+        ports:
+          - "5432"
+        networks: 
+          - production-network
+        depends_on: 
+         - "app-desafio"
+
+networks: 
+    production-network:
+        driver: bridge
