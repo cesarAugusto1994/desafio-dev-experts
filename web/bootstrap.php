@@ -16,9 +16,10 @@ try {
         'host' => 'db',
         'driver' => 'pdo_pgsql',
     );
+
     $conn = \Doctrine\DBAL\DriverManager::getConnection($connectionParams, $config);
 
- } catch (PDOException  $e) {
+ } catch (PDOException $e) {
     print $e->getMessage();
  }
 
@@ -50,5 +51,6 @@ $query2 = "INSERT into usuarios (nome) values ('Cesar Augusto') ";
 
 $query3 = "select * from usuarios";
 $usuarios = $conn->query($query3);
+//var_dump($usuarios->fetchAll());
 
 ?>

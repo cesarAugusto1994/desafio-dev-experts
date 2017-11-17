@@ -37,6 +37,20 @@
                             <button class="btn btn-success" data-toggle="modal" data-target="#cadastrar-produto">Cadastrar</button>
                         </div>
                     </div>
+
+
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Listagem</h3>
+                        </div>
+                        <div class="box-body">
+
+                            <table></table>
+
+                        </div>
+                    </div>
+
+
                 </div>
             </div>
         </section>
@@ -49,27 +63,49 @@
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Mesclar Colunas</h4>
+                    <h4 class="modal-title">Cadastrar Produto</h4>
                 </div>
-                <form class="form-horizontal" action="#" method="post">
+                <form class="form-horizontal" method="post">
                     <div class="modal-body">
 
                         <div class="form-group">
-                            <label class="control-label col-sm-2" for="select-beast">Tipo:</label>
+                            <label class="control-label col-sm-2" for="nome">Nome:</label>
                             <div class="col-sm-10">
+                                <input class="form-control" name="nome" id="nome"/>
+                            </div>
+                        </div>
 
-                                <select class="selectized" id="select-beast">
-                                    <option value="">Select a person...</option>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="select">Tipo:</label>
+                            <div class="col-sm-10">
+                                <select name="tipo" class="selectpicker" data-width="100%" data-live-search="true" id="select">
                                     <option value="4">Thomas Edison</option>
                                     <option value="1">Nikola</option>
                                     <option value="3">Nikola Tesla</option>
                                     <option value="5">Arnold Schwarzenegger</option>
                                 </select>
-
-
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="valor">Valor:</label>
+                            <div class="input-group col-sm-9">
+                                <div class="input-group-addon">R$</div>
+                                <input class="form-control" name="valor" id="valor"/>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+
+                            <div class="form-group">
+                            <label class="control-label col-sm-2" for="imposto">Imposto:</label>
+                            <div class="input-group col-sm-9">
+                                <input  class="form-control" name="imposto" id="imposto"/>
+                                <div class="input-group-addon">%</div>
+                            </div>
+                        </div>
+
+                    </div>
                     </div>
 
                     <div class="modal-footer">
@@ -85,15 +121,69 @@
 
 {% block js %}
 
-    {{ parent() }}
-
     <script>
+
         $(function() {
-            $('.selectized').selectize({
-                create: true,
-                sortField: 'text'
+
+            $("#valor").maskMoney({
+                decimal: ",",
+                thousands: "."
             });
+
+            $("#imposto").maskMoney({
+                decimal: ",",
+                thousands: "."
+            });
+
+            var content = "<input type='text' class='bss-input' onKeyDown='event.stopPropagation();' onKeyPress='addSelectInpKeyPress(this,event)' onClick='event.stopPropagation()' placeholder='Add item'> <span class='glyphicon glyphicon-plus addnewicon' onClick='addSelectItem(this,event,1);'></span>";
+
+            var divider = $('<option/>')
+                .addClass('divider')
+                .data('divider', true);
+
+
+            var addoption = $('<option/>', {class: 'addItem'})
+                .data('content', content);
+
+            $('.selectpicker')
+                .append(divider)
+                .append(addoption)
+                .selectpicker();
+
         });
+
+        function addSelectItem(t,ev)
+        {
+            ev.stopPropagation();
+
+            var bs = $(t).closest('.bootstrap-select')
+            var txt=bs.find('.bss-input').val().replace(/[|]/g,"");
+            var txt=$(t).prev().val().replace(/[|]/g,"");
+            if ($.trim(txt)=='') return;
+
+            // Changed from previous version to cater to new
+            // layout used by bootstrap-select.
+            var p=bs.find('select');
+            var o=$('option', p).eq(-2);
+            o.before( $("<option>", { "selected": true, "text": txt}) );
+            p.selectpicker('refresh');
+        }
+
+        function addSelectInpKeyPress(t,ev)
+        {
+            ev.stopPropagation();
+
+            // do not allow pipe character
+            if (ev.which==124) ev.preventDefault();
+
+            // enter character adds the option
+            if (ev.which==13)
+            {
+                ev.preventDefault();
+                addSelectItem($(t).next(),ev);
+            }
+        }
+
     </script>
 
 {% endblock %}

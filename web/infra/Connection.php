@@ -2,7 +2,7 @@
 
 class Connection
 {
-    private $storage;
+    private static $storage;
 
     public function __construct($host, $db, $user, $password)
     {
@@ -12,5 +12,10 @@ class Connection
     public function getConnection()
     {
         return $this->storage;
+    }
+
+    public static function getInstance()
+    {
+        return self::$storage;
     }
 }
