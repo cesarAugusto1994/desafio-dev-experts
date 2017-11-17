@@ -11,4 +11,6 @@ RUN apt-get update \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN sudo chmod 777 -R var/*
+
 EXPOSE 80

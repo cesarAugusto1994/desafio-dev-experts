@@ -1,0 +1,99 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+
+    <div class="content-wrapper">
+
+        <section class="content-header">
+            <h1>
+                Pesquisar Produtos
+                <small>lista</small>
+            </h1>
+            <ol class="breadcrumb">
+                <li><a href="/"><i class="fa fa-dashboard"></i> Home</a></li>
+                <li><a href="/">Produtos</a></li>
+                <li class="active">Pesquisar</li>
+            </ol>
+        </section>
+
+        <section class="content">
+
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="box">
+                        <div class="box-header">
+                            <h3 class="box-title">Formulario</h3>
+                        </div>
+                        <div class="box-body">
+                            <form class="form-horizontal" action="#" method="get">
+                                <div class="form-group">
+                                    <label class="control-label col-sm-2">Pesquisar:</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" name="q" required minlength="2"/>
+                                    </div>
+                                </div>
+                                <button class="btn btn-dropbox"><i class="fa fa-search"></i>&nbsp;Pesquisar</button>
+                            </form>
+                            <button class="btn btn-success" data-toggle="modal" data-target="#cadastrar-produto">Cadastrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+
+    <div class="modal fade" id="cadastrar-produto" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Mesclar Colunas</h4>
+                </div>
+                <form class="form-horizontal" action="#" method="post">
+                    <div class="modal-body">
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="select-beast">Tipo:</label>
+                            <div class="col-sm-10">
+
+                                <select class="selectized" id="select-beast">
+                                    <option value="">Select a person...</option>
+                                    <option value="4">Thomas Edison</option>
+                                    <option value="1">Nikola</option>
+                                    <option value="3">Nikola Tesla</option>
+                                    <option value="5">Arnold Schwarzenegger</option>
+                                </select>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-success">Criar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block js %}
+
+    {{ parent() }}
+
+    <script>
+        $(function() {
+            $('.selectized').selectize({
+                create: true,
+                sortField: 'text'
+            });
+        });
+    </script>
+
+{% endblock %}
